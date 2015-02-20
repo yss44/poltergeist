@@ -31,7 +31,14 @@ module Capybara::Poltergeist
     end
 
     def find(method, selector)
-      command(:find_within, method, selector).map { |id| self.class.new(driver, page_id, id) }
+      result = command(:find_within, method, selector)
+
+      # FIXME workaround for this bug https://github.com/teampoltergeist/poltergeist/issues/482
+      if result == true || result.class == String
+        result = command(:find_within, method, selector)
+      end
+
+      result.map { |id| self.class.new(driver, page_id, id) }
     end
 
     def find_xpath(selector)

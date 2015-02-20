@@ -57,6 +57,12 @@ module Capybara::Poltergeist
 
     def find(method, selector)
       result = command('find', method, selector)
+
+      # FIXME workaround for this bug https://github.com/teampoltergeist/poltergeist/issues/482
+      if result == true
+        result = command('find', method, selector)
+      end
+
       result['ids'].map { |id| [result['page_id'], id] }
     end
 

@@ -59,7 +59,7 @@ module Capybara::Poltergeist
       result = command('find', method, selector)
 
       # FIXME workaround for this bug https://github.com/teampoltergeist/poltergeist/issues/482
-      if result == true || result.class == String
+      if result == true
         result = command('find', method, selector)
       end
 
